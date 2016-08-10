@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using System.Configuration;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -114,35 +115,37 @@ namespace BestBuyProductDataToCSV
                     // No need to assign if it is just blank.
                     if (xml.Value.Length > 0)
                     {
+                        // Don't allow new lines or commas in data.
+                        var value = xml.Value.Replace('\n', ' ').Replace(",", "&#044;");
                         switch (elem)
                         {
                             case "productId":
                                 if (data.ProductId.Length > 0) break;
-                                data.ProductId = xml.Value.Replace('\n', ' ');
+                                data.ProductId = value;
                                 break;
                             case "name":
                                 if (data.Name.Length > 0) break;
-                                data.Name = xml.Value.Replace('\n', ' ');
+                                data.Name = value;
                                 break;
                             case "regularPrice":
                                 if (data.Price.Length > 0) break;
-                                data.Price = xml.Value.Replace('\n', ' ');
+                                data.Price = value;
                                 break;
                             case "shortDescription":
                                 if (data.Description.Length > 0) break;
-                                data.Description = xml.Value.Replace('\n', ' ');
+                                data.Description = value;
                                 break;
                             case "departmentId":
                                 if (data.CategoryId.Length > 0) break;
-                                data.CategoryId = xml.Value.Replace('\n', ' ');
+                                data.CategoryId = value;
                                 break;
                             case "department":
                                 if (data.Category.Length > 0) break;
-                                data.Category = xml.Value.Replace('\n', ' ');
+                                data.Category = value;
                                 break;
                             case "image":
                                 if (data.ImagePath.Length > 0) break;
-                                data.ImagePath = xml.Value.Replace('\n', ' ');
+                                data.ImagePath = value;
                                 break;
                         }
                     }
